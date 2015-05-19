@@ -1,0 +1,3 @@
+var TableNode = BaseNode.extend({
+
+});

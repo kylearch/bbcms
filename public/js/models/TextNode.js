@@ -1,0 +1,3 @@
+var TextNode = BaseNode.extend({	
+
+});
