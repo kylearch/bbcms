@@ -22,4 +22,10 @@ class API extends REST_Controller
 		$this->response($node);
 	}
 
+	public function nodes_get()
+	{
+		$nodes = $this->model->query();
+		$this->response($nodes);
+	}
+
 }

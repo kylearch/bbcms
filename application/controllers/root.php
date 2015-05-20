@@ -8,6 +8,7 @@ class Root extends Controller
 		$this->handoff("title", "BBCMS");
 		$this->handoff("page_content", "pages/home");
 		$this->handoff("node", $this->Nodes->lookup(1));
+		$this->handoff("sidebar", $this->Nodes->lookup(2));
 
 		$this->View->load("layouts/default");
 	}

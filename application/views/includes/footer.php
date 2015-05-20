@@ -4,13 +4,14 @@
 		<script type="text/javascript" src="public/js/libs/underscore.min.js"></script>
 		<script type="text/javascript" src="public/js/libs/backbone.min.js"></script>
 		<script type="text/javascript" src="public/js/views/NodeView.js"></script>
-		<script type="text/javascript" src="public/js/models/BaseNode.js"></script>
-		<script type="text/javascript" src="public/js/models/TextNode.js"></script>
+		<script type="text/javascript" src="public/js/views/TextView.js"></script>
+		<script type="text/javascript" src="public/js/views/ImageView.js"></script>
+		<script type="text/javascript" src="public/js/models/NodeModel.js"></script>
+		<script type="text/javascript" src="public/js/models/TextModel.js"></script>
+		<script type="text/javascript" src="public/js/models/ImageModel.js"></script>
+		<script type="text/javascript" src="public/js/collections/NodeCollection.js"></script>
 		<script type="text/javascript">
-			var nodes = document.getElementsByClassName("node");
-			for (var i = 0; i < nodes.length; i++) {
-				new NodeView({ el: nodes[i] });
-			}
+			new NodeView({ el: $(document) });
 		</script>
 
 	</body>

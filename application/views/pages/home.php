@@ -4,7 +4,7 @@
 	</header>
 
 	<div class="content">
-		<div class="node" data-id="<?php echo $node->id; ?>" data-name="<?php echo $node->name; ?>" data-type="<?php echo $node->type; ?>">
+		<div class="bb-node" data-id="<?php echo $node->id; ?>" data-name="<?php echo $node->name; ?>" data-type="<?php echo $node->type; ?>">
 			<?php echo $node->content; ?>
 		</div>
 	</div>

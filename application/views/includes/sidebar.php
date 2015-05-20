@@ -1,1 +1,1 @@
-<div class="sidebar">This is a sidebar</div>
+<div class="sidebar bb-node" data-id="<?php echo $sidebar->id; ?>" data-name="<?php echo $sidebar->name; ?>" data-type="<?php echo $sidebar->type; ?>">This is a sidebar</div>

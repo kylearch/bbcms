@@ -1,0 +1,3 @@
+var ImageModel = NodeModel.extend({
+
+});

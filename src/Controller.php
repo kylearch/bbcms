@@ -63,14 +63,16 @@ class Controller
 	
 	public function go()
 	{
-		if (method_exists($this, $this->action))
+		if (method_exists($this, $this->action) === TRUE)
 		{
 			$args = $this->Router->get_args($this instanceof REST_Controller);
 			call_user_func_array(array($this, $this->action), $args);
+			return TRUE;
 		}
 		else
 		{
 			echo "Could not find method {$this->action} in class " . get_class($this);
+			return FALSE;
 		}
 	}
 

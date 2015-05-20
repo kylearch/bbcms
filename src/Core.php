@@ -29,8 +29,10 @@ class BBCMS
 	public function run()
 	{
 		$this->Controller = Controller::load();
-		$this->Controller->go();
-		$this->View->render();
+		if ($this->Controller->go())
+		{
+			$this->View->render();
+		}
 	}
 
 }

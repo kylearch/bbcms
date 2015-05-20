@@ -64,13 +64,15 @@ header {
 /***********************************************\
 * EDITOR
 \***********************************************/
-.node::selection, .node ::selection {
+.bb-node::selection, .bb-node ::selection {
   background: rgba(66, 66, 122, 0.25); }
 
-.node::-moz-selection, .node ::selection {
+.bb-node::-moz-selection, .bb-node ::selection {
   background: rgba(66, 66, 122, 0.25); }
 
 .bb-editable {
+  display: inline-block;
+  width: 100%;
   background: transparent;
   padding: 0;
   box-shadow: none;
@@ -79,23 +81,19 @@ header {
   -ms-transition: all .2s;
   -o-transition: all .2s;
   transition: all .2s; }
+  .bb-editable.bb-editing {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    box-shadow: 0px 0px 0px 2px rgba(66, 66, 122, 0.25);
+    border-radius: 1px;
+    outline: none; }
 
-.bb-editable[contenteditable=true] {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px 12px;
-  box-shadow: 0px 0px 0px 2px rgba(66, 66, 122, 0.25);
-  border-radius: 1px;
-  outline: none;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  -ms-box-sizing: content-box;
-  -o-box-sizing: content-box;
-  box-sizing: content-box; }
-
-.node-save {
-  display: inline;
-  position: relative;
-  margin: 10px 10px 10px 0; }
+.bb-node .bb-buttons {
+  display: block; }
+  .bb-node .bb-buttons .button, .bb-node .bb-buttons .button-blue, .bb-node .bb-buttons .button-red {
+    display: inline-block;
+    position: relative;
+    margin: 10px 10px 10px 0; }
 
 .content {
   display: inline-block;

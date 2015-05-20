@@ -1,0 +1,3 @@
+var TableModel = NodeModel.extend({
+
+});

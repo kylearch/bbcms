@@ -1,3 +1,0 @@
-var ImageNode = BaseNode.extend({
-
-});
