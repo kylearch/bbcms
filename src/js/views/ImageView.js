@@ -38,12 +38,13 @@ var ImageView = NodeView.extend({
 	},
 
 	render: function() {
-		var img = new Image();
+		var self = this,
+			img = new Image();
 		img.onload = function() {
-			this.$img.attr("src", this.model.get("src")).animate({ opacity: 1 });
-			this.$content.css({ background: "none", backgroundColor: "transparent" });
+			self.$img.attr("src", self.model.get("content")).animate({ opacity: 1 });
+			self.$content.css({ background: "none", backgroundColor: "transparent" });
 		};
-		img.src = this.model.get("src");
+		img.src = this.model.get("content");
 	},
 
 	createEditor: function() {
@@ -56,7 +57,6 @@ var ImageView = NodeView.extend({
 
 	destroyEditor: function() {
 		if (this.cid === NodeView.ctx) {
-			//this.$content.html(this.model.get("content")).prop("contenteditable", false).removeClass("bb-editing");
 			this.$content.removeClass("bb-editing");
 			this.$replace.remove();
 			this.$remove.remove();

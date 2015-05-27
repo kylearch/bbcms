@@ -105,6 +105,7 @@ header {
 
 	&.bb-editing {
 		background: rgba(255, 255, 255, 0.25);
+		margin-bottom: 50px;
 		padding: 8px 12px;
 		box-shadow: 0px 0px 0px 1px rgba(66, 66, 122, 0.25);
 		border-radius: 1px;
@@ -112,18 +113,24 @@ header {
 	}
 }
 
-.bb-node[data-type=image] .bb-editable {
+.bb-node[data-type=image] {
+	display: inline-block;
 	width: auto;
-	line-height: 0;
 
-	&.bb-editing {
-		padding: 8px;
+	& .bb-editable {
+		line-height: 0;
+
+		&.bb-editing {
+			padding: 8px;
+		}
 	}
 }
 
 .bb-node .bb-buttons {
+	position: absolute;
 	display: block;
 	min-width: 350px;
+	margin-top: -50px;
 
 	.button {
 		display: inline-block;
