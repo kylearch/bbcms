@@ -28,4 +28,12 @@ class API extends REST_Controller
 		$this->response($nodes);
 	}
 
+	public function file_post()
+	{
+		$file = Booster::set("File");
+		$request = $this->parse_request();
+		$request["src"] = $file->node_file($request);
+		$this->response($request);
+	}
+
 }

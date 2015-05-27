@@ -27,7 +27,7 @@ class Controller
 		if (is_null($controller))
 		{
 			$controller_class = $config->routes->default_controller;
-			if ( ! empty($router->route[0]) && Booster::find_class_file($router->route[0]))
+			if ( ! empty($router->route[0]) && Booster::find_file($router->route[0]))
 			{
 				$controller_class = $router->route[0];
 			}

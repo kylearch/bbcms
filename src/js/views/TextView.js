@@ -35,10 +35,19 @@ var TextView = NodeView.extend({
 	},
 
 	createEditor: function() {
-		this.$content.prop("contenteditable", true).addClass("bb-editing");;
+		this.$content.prop("contenteditable", true).addClass("bb-editing");
 		this.$buttons.append(this.$save);
 		this.$buttons.append(this.$cancel);
 		$(this.el).append(this.$buttons);
+	},
+
+	destroyEditor: function() {
+		if (this.cid === NodeView.ctx) {
+			this.$content.html(this.model.get("content")).prop("contenteditable", false).removeClass("bb-editing");
+			this.$save.remove();
+			this.$cancel.remove();
+			this.deselect();
+		}
 	},
 
 	save: function(e) {

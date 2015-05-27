@@ -1,5 +1,5 @@
 <?php
 
-require("src/Core.php");
-$app = new BBCMS();
+require("src/core/Joust.php");
+$app = new Joust();
 $app->run();

@@ -24,8 +24,6 @@ class View
 			extract(Controller::get_handoff());
 			ob_start();
 			include($file);
-			// Borrowed from Code Igniter
-			// Allows for nested loading of files
 			if (ob_get_level() > $this->ob_level + 1)
 			{
 				ob_end_flush();

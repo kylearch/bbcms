@@ -1,6 +1,6 @@
 <div class="container">
   <header>
-    <a href="/">BBCMS</a>
+    <a href="/">Joust CMS</a>
   </header>
 
   <div class="content">

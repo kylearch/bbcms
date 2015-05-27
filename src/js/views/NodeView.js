@@ -3,9 +3,9 @@ var NodeView = Backbone.View.extend({
 	initialize: function() {
 		var self = this,
 			$nodes = $(this.el).find(".bb-node");
-			nodes = new Array();
+			nodes = [];
 
-		this.ctx = null;
+		NodeView.ctx = null;
 
 		this.collection = new NodeCollection();
 		$nodes.each(function(i, el) {
@@ -23,8 +23,6 @@ var NodeView = Backbone.View.extend({
 				// console.log(this.collection);
 			}
 		});
-
-		_.bindAll(this, 'render', 'keyMapper', 'destroy');
 	},
 
 	deBubble: function(e) {
@@ -36,6 +34,7 @@ var NodeView = Backbone.View.extend({
 
 	click: function(e) {
 		this.deBubble(e);
+		NodeView.ctx = this.cid;
 		if ( ! this.isEditing) {
 			this.createEditor();
 			$(document).on("keydown", this.keyMapper);
@@ -46,10 +45,7 @@ var NodeView = Backbone.View.extend({
 	destroy: function(e) {
 		this.deBubble(e);
 		$(document).off("keydown");
-		this.$content.html(this.model.get("content")).prop("contenteditable", false).removeClass("bb-editing");;
-		this.$save.remove();
-		this.$cancel.remove();
-		this.deselect();
+		this.destroyEditor();
 		this.isEditing = false;
 	},
 
@@ -63,9 +59,7 @@ var NodeView = Backbone.View.extend({
 
 	keyMapper: function(e) {
 		switch (e.keyCode) {
-			case 27: 
-				this.destroy();
-			break;
+			case 27: this.destroy(); break;
 		}
 		// console.log(e.keyCode);
 	}

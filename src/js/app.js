@@ -1,0 +1,1 @@
+new NodeView({ el: $(document) });

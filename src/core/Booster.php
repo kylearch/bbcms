@@ -5,9 +5,9 @@ class Booster
 
 	private static $registry;
 
-	public static function find_class_file($name)
+	public static function find_file($name, $specific = FALSE)
 	{
-		$matches = glob("{src/{$name}.php,application/controllers/{$name}.php,application/models/{$name}.php}", GLOB_BRACE);
+		$matches = ($specific === TRUE) ? glob($name) : glob("{src/*/{$name}.php,application/*/{$name}.php}", GLOB_BRACE) ;
 		return (isset($matches[0])) ? $matches[0] : FALSE ;
 	}
 
@@ -15,7 +15,7 @@ class Booster
 	{
 		if ( ! isset(self::$registry[$class]))
 		{
-			if ($file = self::find_class_file($class))
+			if ($file = self::find_file($class))
 			{
 				require_once($file);
 				$class_name = is_null($name) ? $class : $name ;

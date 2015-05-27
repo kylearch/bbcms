@@ -1,12 +1,13 @@
 <?php
 
-class BBCMS
+class Joust
 {
 
 	private $_required = array(
 		"Booster",
 		"Config",
 		"Controller",
+		"File",
 		"Model",
 		"REST_Controller",
 		"Router",
@@ -24,6 +25,8 @@ class BBCMS
 		$this->Router = Booster::set("Router");
 		$this->View = Booster::set("View");
 		$this->Model = Booster::set("Model");
+
+		date_default_timezone_set($this->Config->timezone);
 	}
 
 	public function run()
