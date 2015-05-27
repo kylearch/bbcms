@@ -16,6 +16,8 @@ class Joust
 
 	public function __construct()
 	{
+		session_start();
+
 		// Needs to check if files exist and handle erros if not (fatal)
 		foreach ($this->_required as $file) {
 			require("{$file}.php");

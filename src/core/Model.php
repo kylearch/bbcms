@@ -5,38 +5,131 @@ class Model
 
 	public $db;
 	public $_table;
+	public $_sql = "";
+	public $_type = "select";
+
 	public $_select;
 	public $_where = "";
 	public $_limit = "";
 	public $_offset = "";
+	
+	public $_id;
 
 	public function __construct()
 	{
 		$this->config = Booster::get("Config");
 		$this->db = new PDO("mysql:host={$this->config->db->host};dbname={$this->config->db->database};charset=utf8", $this->config->db->user, $this->config->db->pass);
-		$this->_select = "SELECT * FROM `{$this->_table}`";
 	}
 
-	public function build_query()
-	{
-		$sql = "{$this->_select} {$this->_where} {$this->_limit} {$this->_offset}";
-		// Reset query pieces for next query
-		$this->_select = "SELECT * FROM `{$this->_table}`";
-		$this->_where = "";
-		$this->_limit = "";
-		$this->_offset = "";
-		return $sql;
+	public function reset($var)
+	{	
+		$tmp = $this->{$var};
+		$this->{$var} = "";
+		return $tmp;
 	}
 
-	public function query()
+	public function type($type = null)
 	{
-		$sql = $this->build_query();
+		if ( ! is_null($type))
+		{
+			$this->_type = $type;
+		}	
+		return $this->_type;
+	}
+
+	public function id($id = null)
+	{
+		if ( ! is_null($id))
+		{
+			$this->_id = $id;
+		}	
+		return $this->_id;	
+	}
+
+	public function build_select_query()
+	{
+		$this->type("select");
+		$this->_select = empty($this->_select) ? "SELECT * FROM `{$this->_table}`" : $this->_select ;
+		$this->_sql = "{$this->_select} {$this->_where} {$this->_limit} {$this->_offset}";
+
+		$this->reset("_where");
+		$this->reset("_limit");
+		$this->reset("_offset");
+	}
+
+	public function build_insert_query($values)
+	{
+		$this->type("insert");
+		$fields_str = "(`" . implode("`, `", array_keys($values)) . "`)";
+		$values_str = "(:" . implode(", :", array_keys($values)) . ")";
+		$sql = "INSERT INTO `{$this->_table}` {$fields_str} VALUES {$values_str}";
+		$this->_sql = $this->db->prepare($sql);
+		foreach ($values as $field => $value)
+		{
+			$this->_sql->bindValue(":{$field}", $value);
+		}
+	}
+
+	public function build_update_query($values)
+	{
+		$this->type("update");
+		$set = "";
+		foreach ($values as $field => $value)
+		{
+			$set .= "`{$field}` = :{$field}, ";
+		}
+		$set = trim($set, ", ");
+		$query = "UPDATE `{$this->_table}` SET {$set} WHERE `id` = :id";
+		$this->_sql = $this->db->prepare($query);
+		foreach ($values as $field => $value)
+		{
+			$this->_sql->bindValue(":{$field}", $value);
+		}
+	}
+
+	public function query($sql = null)
+	{
+		if (is_null($sql))
+		{
+			$sql = $this->reset("_sql");
+		}
+		else
+		{
+			$this->type(strtolower(strtok($sql, " ")));
+		}
+		$type = $this->reset("_type");
+
+		$this->reset("_select");
+		$this->reset("_where");
+		$this->reset("_limit");
+		$this->reset("_offset");
+
 		try {
-	    	$query = $this->db->query($sql);
-	    	$result = $query->fetchAll(PDO::FETCH_OBJ);
+			if ($type == "select")
+			{
+				$query_string = $sql;
+				$query = $this->db->query($sql);
+				$result = $query->fetchAll(PDO::FETCH_OBJ);
+			}
+			else
+			{
+				$query_string = $sql->queryString;
+				$sql->execute();
+				switch ($type)
+				{
+					case 'update':
+					case 'delete':
+						$result = $this->lookup($this->id());
+					break;
+					case 'insert':
+						$result = $this->lookup($this->db->lastInsertId());
+					break;
+				}
+			}
 	    	return $result;
 		} catch(PDOException $ex) {
-	    	echo "An Error occured! Tried to do: " . $sql;
+	    	echo "An Error occured! Tried to do: " . $query_string;
+	    	echo "<pre>"; print_r($ex); echo "</pre>";
 		}
 	}
 
@@ -82,34 +175,40 @@ class Model
 
 	public function lookup($id)
 	{
+		$this->id($id);
 		$this->where("`id` = {$id}");
+		$this->build_select_query();
 		$result = $this->query();
 		return (count($result) > 0) ? $result[0] : FALSE ;
 	}
 
+	public function insert($data)
+	{
+		$values = $this->reduce_fields($data);
+		$this->build_insert_query($values);
+		$this->query();
+	}
+
 	public function update($id, $data)
 	{
-		$set = "";
-		$data = $this->reduce_fields($data);
-		foreach ($data as $field => $value)
-		{
-			$set .= "`{$field}` = :{$field}, ";
-		}
-		$set = trim($set, ", ");
-		$query = "UPDATE `{$this->_table}` SET {$set} WHERE `id` = :id";
-		$update = $this->db->prepare($query);
-		foreach ($data as $field => $value)
-		{
-			$update->bindValue(":{$field}", $value);
-		}
-		$update->execute();
+		$this->id($id);
+		$values = $this->reduce_fields($data);
+		$this->build_update_query($values);
+		$this->query();
+	}
+
+	public function delete($id)
+	{
+		//stub
 	}
 
 	public function reduce_fields($data)
 	{
+		$this->type("select");
 		$columns = array();
 		$this->select("COLUMN_NAME", "`INFORMATION_SCHEMA`.`COLUMNS`");
 		$this->where(array("`TABLE_SCHEMA`='{$this->config->db->database}'", "`TABLE_NAME`='{$this->_table}'"));
+		$this->build_select_query();
 		$result = $this->query();
 		foreach ($result as $column)
 		{
