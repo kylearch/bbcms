@@ -14,7 +14,9 @@ class Controller
 	{
 		$this->View = Booster::get("View");
 		$this->Model = Booster::get("Model");
-		$this->Nodes = Booster::set("Node_model");
+		$this->Nodes = Booster::get("Node_model");
+		$this->Request = Booster::get("Request");
+		$this->Auth = Booster::get("Auth");
 		self::$_handoff = new stdClass();
 		$this->parse_action();
 	}

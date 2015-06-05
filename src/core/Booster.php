@@ -35,9 +35,9 @@ class Booster
 		}
 	}
 
-	public static function get($class)
+	public static function get($class, $name = NULL)
 	{
-		return self::$registry[$class];
+		return (isset(self::$registry[$class])) ? self::$registry[$class] : self::set($class, $name);
 	}
 
 	public static function update($class)

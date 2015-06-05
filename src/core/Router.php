@@ -28,4 +28,9 @@ class Router
 		return array_slice($this->route, $key);
 	}
 
+	public function redirect($location)
+	{
+		header("Location: {$location}");
+	}
+
 }

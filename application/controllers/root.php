@@ -23,4 +23,26 @@ class Root extends Controller
 		$this->View->load("layouts/default");
 	}
 
+	public function login()
+	{
+		$this->handoff("title", "Login");
+
+		if ($this->Request->is_post())
+		{
+			$username = $this->Request->post('username');
+			$password = $this->Request->post('password');
+			if ($this->Auth->login($username, $password) === TRUE)
+			{
+				$this->Router->redirect("/");
+			}
+			else
+			{
+				$this->handoff("error", "Incorrect username or password");
+			}
+		}
+
+		$this->View->load("layouts/login");
+
+	}
+
 }
