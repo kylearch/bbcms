@@ -20,6 +20,14 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 /***********************************************\
 * GLOBAL
 \***********************************************/
+
+@import url('http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic');
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
 * {
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
@@ -71,6 +79,36 @@ body {
 	&:hover {
 		background: rgba(210, 90, 50, 1);
 	}
+}
+
+/***********************************************\
+* FORMS
+\***********************************************/
+.form-field {
+	display: block;
+	position: relative;
+	width: 100%;
+	margin-bottom: 10px;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+
+	label {
+		display: block;
+		margin-bottom: 4px;
+	}
+}
+
+.field-input {
+	display: block;
+	width: 100%;
+	padding: 4px;
+	appearance: none;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+	font-size: 18px;
+	box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /***********************************************\
@@ -162,3 +200,21 @@ header {
 	width: 20%;
 	padding: 0 10px;
 }
+
+/***********************************************\
+* JOUST LOGIN
+\***********************************************/
+.joust-login {
+	background: rgb(242,246,248);
+}
+
+.joust-login-form {
+	display: block;
+	position: relative;
+	width: 480px;
+	margin: 80px auto auto auto;
+	padding: 30px;
+	background: rgba(202, 217, 227, 0.45);
+	box-shadow: 0 3px 4px rgba(20, 20, 35, 0.2);
+	border-radius: 4px;
+};

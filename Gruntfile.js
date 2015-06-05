@@ -28,8 +28,7 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
       },
       dist: {
         files: {
@@ -52,15 +51,25 @@ module.exports = function(grunt) {
       js: ['src/js/<%= pkg.name %>.js']
     },
     sass: {
-        dist: {
-          options: {
-            style: 'compressed'
-          },
-          files: {
-            'public/css/joust.min.css': 'src/css/joust.scss',
-          }
+      dist: {
+        options: {
+          style: 'compressed'
+        },
+        files: {
+          'public/css/joust.min.css': 'src/css/joust.scss',
         }
       }
+    },
+    watch: {
+      js: {
+        files: ['<%= concat.joust.src %>'],
+        tasks: ['jshint', 'concat', 'uglify'],
+      },
+      css: {
+        files: ['src/css/joust.scss'],
+        tasks: ['sass'],
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -68,6 +77,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'clean', 'sass']);
 
