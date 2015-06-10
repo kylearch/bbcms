@@ -193,6 +193,7 @@ class Model
 	{
 		$this->id($id);
 		$values = $this->reduce_fields($data);
+		$values["id"] = $id;
 		$this->build_update_query($values);
 		$this->query();
 	}

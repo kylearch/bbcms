@@ -10,6 +10,7 @@ class View
 	public function __construct()
 	{
 		$this->ob_level = ob_get_level();
+		$this->Auth = Booster::get("Auth");
 	}
 
 	public function load($view)

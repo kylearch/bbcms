@@ -7,6 +7,12 @@ class API extends REST_Controller
 	{
 		parent::__construct();
 		$this->model = Booster::set("Node_model");
+		$this->Auth = Booster::get("Auth");
+		if ( ! $this->Auth->check_token())
+		{
+			header('HTTP/1.1 401 Unauthorized');
+			die('Unauthorized. Please login to access this endpoint');
+		}
 	}
 
 	public function node_get($id)
